@@ -74,18 +74,10 @@ git clone <repository-url>
 cd Monday.com-Google-Drive-Embedded
 ```
 
-### Step 2: Install Frontend Dependencies
+### Step 2: Install node Dependencies in Project
 
 ```bash
-cd client
-npm install
-```
-
-### Step 3: Install Backend Dependencies
-
-```bash
-cd ../server
-npm install
+npm run install:all
 ```
 
 **Note:** You may need to install `jsonwebtoken` package if it's not already installed:
