@@ -80,6 +80,21 @@ cd Monday.com-Google-Drive-Embedded
 npm run install:all
 ```
 
+### Step 3 Install monday SDK Dependencies in client
+
+```bash
+cd client
+npm install monday-sdk-js
+```
+
+### Step 4: Install jwt validation Dependencies in server
+
+```bash
+cd server
+npm install jsonwebtoken
+```
+
+
 **Note:** You may need to install `jsonwebtoken` package if it's not already installed:
 
 ```bash
