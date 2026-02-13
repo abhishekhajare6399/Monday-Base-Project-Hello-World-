@@ -6,6 +6,8 @@
     "install:server": "cd server && npm install",
     "install:client": "cd client && npm install",
     "install:all": "npm install && npm run install:server && npm run install:client",
+    "install:client:Dependencies": "cd client && npm install monday-sdk-js",
+    "install:server:Dependencies": "cd server && npm install axios && npm install jsonwebtoken",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev",
@@ -29,6 +31,3 @@
     "concurrently": "^9.1.2"
   }
 }
-
-
-
