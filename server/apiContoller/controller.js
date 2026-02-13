@@ -7,26 +7,15 @@ const { getHelloWorld } = require("../services/hello-world");
  */
 const getHelloWorldController = async (req, res) => {
   try {
-    Logger.info(req, "Hello World API called");
-    
-    // Get Monday.com session token from header
-    const mondaySessionToken = req.headers['x-monday-session-token'];
-    
-    if (mondaySessionToken) {
-      Logger.info(req, `Monday.com Session Token received: ${mondaySessionToken}`);
-    } else {
-      Logger.warn(req, "Monday.com Session Token not found in request headers");
-    }
-    
-    
-    // Call the service
-    const message = getHelloWorld();
+
+    const result = await getHelloWorld(req, res);
     
     Logger.info(req, "Hello World service executed successfully");
     
     res.status(200).json({
       success: true,
-      message: message
+      message: result.message,
+      mondayUser: result.mondayUser
     });
   } catch (error) {
     Logger.error(req, `Hello World API error: ${error.message}`);

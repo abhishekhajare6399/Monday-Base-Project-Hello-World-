@@ -4,6 +4,7 @@
  */
 
 import { getMondaySessionToken } from '../mondayServices/getMondaySessionToken';
+import { type MondayUser } from '../constants/mondayCosntant';
 
 // Use proxy in development, or full URL in production
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
@@ -20,29 +21,33 @@ const getHeadersWithToken = async (): Promise<Record<string, string>> => {
 
   try {
     const sessionToken = await getMondaySessionToken();
-    console.log('Session token:', sessionToken);
     if (sessionToken) {
       headers['X-Monday-Session-Token'] = sessionToken;
     }
   } catch (error) {
     console.warn('Could not retrieve Monday.com session token:', error);
-    // Continue without token - you may want to handle this differently based on your requirements
   }
 
   return headers;
 };
 
 /**
- * Fetches hello world message from the server
- * @returns Promise with the hello world message
+ * Hello World API response interface
+ */
+export interface HelloWorldResponse {
+  success: boolean;
+  message: string;
+  mondayUser: MondayUser | null;
+}
+
+/**
+ * Fetches hello world message and Monday user details from the server
+ * @returns Promise with the hello world response including Monday user data
 */
-export const getHelloWorld = async (): Promise<string> => {
+export const getHelloWorld = async (): Promise<HelloWorldResponse> => {
   const url = `${API_BASE_URL}${BASE_PATH}/hello-world`;  
-  console.log('Fetching from URL:', url);
   try {
-    // Get headers with Monday.com session token
     const headers = await getHeadersWithToken();
-    
     const response = await fetch(url, {
       method: 'GET',
       headers,
@@ -56,8 +61,12 @@ export const getHelloWorld = async (): Promise<string> => {
 
     const data = await response.json();
     
-    if (data.success && data.message) {
-      return data.message;
+    if (data.success) {
+      return {
+        success: data.success,
+        message: data.message || '',
+        mondayUser: data.mondayUser || null
+      };
     } else {
       throw new Error('Invalid response format');
     }
